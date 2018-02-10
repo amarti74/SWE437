@@ -1,4 +1,3 @@
-package quotes;
 
 /**
  * Quote data object.
@@ -50,3 +49,4 @@ public class Quote
       return "Quote {" + "author='" + author + '\'' + ", quoteText='" + quoteText + '\'' + '}';
    }
 }
+

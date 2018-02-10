@@ -1,4 +1,3 @@
-package quotes;
 
 import java.util.ArrayList;
 import java.util.Random;
@@ -87,3 +86,4 @@ public class QuoteList
       return quoteArray.get (randomGen.nextInt (quoteArray.size()));
    }
 }
+

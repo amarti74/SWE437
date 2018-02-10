@@ -1,4 +1,3 @@
-package quotes;
 
 import java.io.*;
 import javax.xml.parsers.SAXParserFactory;
@@ -34,3 +33,4 @@ public QuoteList getQuoteList()
    return handler.getQuoteList();
 }
 }
+
