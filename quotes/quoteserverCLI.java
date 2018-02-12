@@ -10,8 +10,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -24,14 +23,10 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
-import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 public class quoteserverCLI {
-
-	private final static Logger LOGGER = Logger.getLogger(quoteserverCLI.class.getName());
 
 	// quoteList will hold the list of quotes read in from quotes.xml
 	private static QuoteList quoteList;
@@ -40,12 +35,10 @@ public class quoteserverCLI {
 
 	public static void main(String[] args) {
 
-		LOGGER.setLevel(Level.ALL);
-
 		Scanner s = new Scanner(System.in);
-		Scanner i = new Scanner(System.in);
+		Scanner menuInput = new Scanner(System.in);
 		String searchText = null;
-		QuoteList randQ = new QuoteList();
+
 		QuoteSaxParser parser = new QuoteSaxParser("quotes.xml");
 		// Loads all quotes in quotes.xlm into quoteList
 		quoteList = parser.getQuoteList();
@@ -58,7 +51,7 @@ public class quoteserverCLI {
 		while (true) {
 			// Print the main menu and prompt for user input
 			menu();
-			int input = i.nextInt();
+			int input = menuInput.nextInt();
 
 			switch (input) {
 			case 1: // User input is 1, print another random quote
@@ -88,7 +81,7 @@ public class quoteserverCLI {
 			case 5: // user input is 5, prompt user to enter quote and author, append to list if
 					// the quote doesn't already exist.
 				System.out.println("Enter the quote and author separately.");
-				appendQuote(helper(s, "Enter the quote:\n"), helper(s, "Enter the author:\n"));
+				appendQuote(helper(s, "Enter the quote:"), helper(s, "Enter the author:"));
 				break;
 
 			case 6: // user input is 6, exit the program
@@ -117,7 +110,6 @@ public class quoteserverCLI {
 			System.out.println();
 
 		} // end while loop
-
 	} // end of main
 
 	/**
@@ -128,8 +120,8 @@ public class quoteserverCLI {
 	 */
 	private static void printRandomQuote(Quote quote) {
 
-		System.out.println("         The GMU Quote Generator" + "\n______________________________________");
-		System.out.println("\nRandom quote of the day\n");
+		System.out.println("         The GMU Quote Generator" + "\n_______________________________________________________");
+		System.out.println("Random quote of the day\n");
 		System.out.println( quote.getQuoteText() );
 		System.out.println("                  " + quote.getAuthor());
 	}
@@ -159,7 +151,7 @@ public class quoteserverCLI {
 	 */
 	private static String helper(Scanner s, String message) {
 
-		System.out.println(message);
+		System.out.print(message);
 		String searchText = "";
 		searchText = s.nextLine();
 		return searchText;
@@ -176,7 +168,8 @@ public class quoteserverCLI {
 	 */
 	private static void appendQuote(String quote, String author) {
 		
-		if (quote.equals(null) || quote.equals("")) {
+		//check if user didn't enter a quote, or entered all spaces
+		if (quote.equals(null) || quote.trim().equals("")) {
 			System.out.println("Sorry:(\nCould not catch the quote!\nPlease try again!");
 			return;
 		}
@@ -188,9 +181,11 @@ public class quoteserverCLI {
 		if (searchRes.getSize() != 0) {
 			Quote quoteTmp;
 			for (int i = 0; i < searchRes.getSize(); i++) {
+				
+				//If the quote already exists, regardless of case, don't add the quote.
 				quoteTmp = searchRes.getQuote(i);
-				if (quoteTmp.getQuoteText().equals(quote)) {
-					System.out.println("The quote is already exist");
+				if ( quoteTmp.getQuoteText().equalsIgnoreCase(quote) ) {
+					System.out.println("The quote already exist");
 					return;
 				}
 			}
@@ -208,7 +203,7 @@ public class quoteserverCLI {
 			Document doc = docBuilder.parse("quotes.xml");
 
 			// Get the root element
-			Node quote_list = doc.getFirstChild();
+			//Node quote_list = doc.getFirstChild();
 
 			// Get the quote-list element by tag name directly
 			Node attQuote_list = doc.getElementsByTagName("quote-list").item(0);
@@ -233,7 +228,7 @@ public class quoteserverCLI {
 			StreamResult result = new StreamResult(new File("quotes.xml"));
 			transformer.transform(source, result);
 
-			System.out.println("\nThe new quote was added to the list.\n");
+			System.out.println("\nThe new quote was added to the list.");
 
 		} catch (ParserConfigurationException pce) {
 			pce.printStackTrace();
@@ -307,7 +302,7 @@ public class quoteserverCLI {
 				tempList.add("(blank)");
 			}
 		}
-
+		System.out.println("_______________________________________________________");
 		System.out.print(String.format("%-40s%s", "MAIN MENU", "RECENT SEARCHES") + "\n"
 				+ String.format("%-40s%s%s", "1. Another random quote", "7. ", tempList.get(0)) + "\n"
 				+ String.format("%-40s%s%s", "2. Search a quote by author", "8. ", tempList.get(1)) + "\n"
