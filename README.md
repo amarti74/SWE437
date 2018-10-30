@@ -1,16 +1,16 @@
-#Game Chat Introduction#
+#Game Chat Introduction
 The game chat system allows a player to send a message to different game locations or specific players. Originally, the game included the ability for a player to SAY a message to all players in the same area. Chat functionality has been expended to WHISPER a message to a player, which behaves similar to a private message. A player’s REPLY to a WHISPER has been streamlined to avoid typing the recipient’s name. Players can also SHOUT, sending a message to every player in the game.
 Also added is the ability to IGNORE all messages from a specific player, regardless of how the message was sent. Individual player ignore lists can be displayed to screen. If desired, the player that owns the ignore list can remove a specific player. 
 To assist players in location, or searching for the correct spelling for a player name, players have the ability to view all players in the game world with the aptly named LISTPLAYERS command. 
 
 
-#Whisper#
+#Whisper
 
-#Reply#
+#Reply
 
-#List Players in Game#
+#List Players in Game
 
-#Ignore#
+#Ignore
 There are two ways to ignore messages from a player:
 1. IGNORE -A <player_name>
 2. /I -A <player_name>
@@ -53,8 +53,8 @@ Does not broadcast to ignoring players
 
 
 
-#List Ignore Users#
+#List Ignore Users
 
-#Unignore#
+#Unignore
 
-#Shout#
+#Shout
